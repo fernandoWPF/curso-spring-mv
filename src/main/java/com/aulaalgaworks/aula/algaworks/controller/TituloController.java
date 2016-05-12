@@ -18,9 +18,9 @@ import com.aulaalgaworks.aula.algaworks.repository.Titulos;
 @RequestMapping("/titulos")
 public class TituloController {
 
-	@Autowired//IoC o Spring vai criar a instancia do objeto aqui. Muito loco.
+	@Autowired // IoC o Spring vai criar a instancia do objeto aqui. Muito loco.
 	private Titulos titulos;
-	
+
 	@RequestMapping("/novo")
 	public ModelAndView novo() {
 		ModelAndView modelAndView = new ModelAndView("CadastroTitulo");
@@ -29,17 +29,26 @@ public class TituloController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ModelAndView Salvar(Titulo titulo) {
-		
+	public ModelAndView salvar(Titulo titulo) {
+
 		titulos.save(titulo);
 		ModelAndView modelAndView = new ModelAndView("CadastroTitulo");
 		modelAndView.addObject("mensagem", "Título Salvo com Sucesso!");
 		return modelAndView;
 	}
-	
+
+	@RequestMapping
+	public ModelAndView pesquisar() {
+
+		List<Titulo> titulos = this.titulos.findAll();
+		ModelAndView modelAndView = new ModelAndView("PesquisaTitulo");
+		modelAndView.addObject("titulos", titulos);
+		return modelAndView;
+	}
+
 	@ModelAttribute("todosStatusTitulo")
-	public List<StatusTitulo> statusTitulos(){
+	public List<StatusTitulo> statusTitulos() {
 		return Arrays.asList(StatusTitulo.values());
-		
+
 	}
 }

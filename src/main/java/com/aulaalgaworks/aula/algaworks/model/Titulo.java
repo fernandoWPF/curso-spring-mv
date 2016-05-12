@@ -24,7 +24,7 @@ public class Titulo {
 
 	private String descricao;
 
-	@DateTimeFormat(pattern = "dd/mm/yyyy")
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@Temporal(TemporalType.DATE)
 	private Date dataVencimento;
 
@@ -70,6 +70,10 @@ public class Titulo {
 		this.status = status;
 	}
 
+	public Boolean isPendente(){
+		return StatusTitulo.PENDENTE.equals(this.status);
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
