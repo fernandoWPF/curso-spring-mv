@@ -8,11 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.aulaalgaworks.aula.algaworks.model.StatusTitulo;
 import com.aulaalgaworks.aula.algaworks.model.Titulo;
@@ -22,52 +20,39 @@ import com.aulaalgaworks.aula.algaworks.repository.Titulos;
 @RequestMapping("/titulos")
 public class TituloController {
 
-	private static final String CADASTRO_VIEW = "CadastroTitulo";
-
-	@Autowired
+	@Autowired // IoC o Spring vai criar a instancia do objeto aqui. Muito loco.
 	private Titulos titulos;
 
 	@RequestMapping("/novo")
 	public ModelAndView novo() {
-		ModelAndView mv = new ModelAndView(CADASTRO_VIEW);
-		mv.addObject(new Titulo());
-		return mv;
+		ModelAndView modelAndView = new ModelAndView("CadastroTitulo");
+		modelAndView.addObject(new Titulo());
+		return modelAndView;
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String salvar(@Validated Titulo titulo, Errors errors, RedirectAttributes attributes) {
-		if (errors.hasErrors()) {
-			return CADASTRO_VIEW;
+	public ModelAndView salvar(@Validated Titulo titulo, Errors errors) {
+
+		ModelAndView modelAndView = new ModelAndView("CadastroTitulo");
+		if(errors.hasErrors()){
+			return modelAndView;
 		}
 		titulos.save(titulo);
-		attributes.addFlashAttribute("mensagem", "Título salvo com sucesso!");
-		return "redirect:/titulos/novo";
+		modelAndView.addObject("mensagem", "Título Salvo com Sucesso!");
+		return modelAndView;
 	}
 
 	@RequestMapping
 	public ModelAndView pesquisar() {
-		List<Titulo> todosTitulos = titulos.findAll();
-		ModelAndView mv = new ModelAndView("PesquisaTitulo");
-		mv.addObject("titulos", todosTitulos);
-		return mv;
-	}
 
-	@RequestMapping("{codigo}")
-	public ModelAndView edicao(@PathVariable("codigo") Titulo titulo) {
-		ModelAndView mv = new ModelAndView(CADASTRO_VIEW);
-		mv.addObject(titulo);
-		return mv;
-	}
-
-	@RequestMapping(value = "{codigo}", method = RequestMethod.DELETE)
-	public String excluir(@PathVariable Long codigo) {
-		titulos.delete(codigo);
-		return "redirect:/titulos";
+		List<Titulo> titulos = this.titulos.findAll();
+		ModelAndView modelAndView = new ModelAndView("PesquisaTitulo");
+		modelAndView.addObject("titulos", titulos);
+		return modelAndView;
 	}
 
 	@ModelAttribute("todosStatusTitulo")
-	public List<StatusTitulo> todosStatusTitulo() {
+	public List<StatusTitulo> statusTitulos() {
 		return Arrays.asList(StatusTitulo.values());
 	}
-
 }
