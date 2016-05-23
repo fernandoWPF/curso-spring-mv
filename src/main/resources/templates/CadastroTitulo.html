@@ -56,7 +56,7 @@
 					th:classappend="${#fields.hasErrors('valor')} ? has-error">
 					<label for="valor" class="col-sm-2 control-label">Valor</label>
 					<div class="col-sm-2">
-						<input type="text" class="form-control" id="valor"
+						<input type="text" class="form-control js-valor-monetario" id="valor"
 							th:field="*{valor}" />
 					</div>
 				</div>
@@ -65,7 +65,7 @@
 					<div class="col-sm-2">
 						<select class="form-control" name="status">
 							<option th:each="status : ${todosStatusTitulo}"
-								th:value="${status}" th:text="${status.descricao}"></option>
+								th:value="${status}" th:text="${status.descricao}" th:field="*{status}"></option>
 						</select>
 					</div>
 				</div>
