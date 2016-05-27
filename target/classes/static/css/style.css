@@ -1,23 +1,24 @@
-.navbar-text{
+@media ( min-width : 768px) {
+	.alert {
+		margin-left: 10px;
+		margin-right: 10px;
+	}
+	.panel-default {
+		margin-left: 10px;
+		margin-right: 10px;
+	}
+}
+
+.navbar-text {
 	color: white !important;
 }
 
-.panel-default{
-	margin-left: 10px;
-	margin-right: 10px;
-}
-
-.sp-titulo{
+.sp-titulo {
 	float: left;
 	padding-top: 2px;
 }
 
-.sp-link{
+.sp-link {
 	float: right;
 	padding: 0px;
-}
-
-.alert{
-	margin-left: 10px;
-	margin-right: 10px;
 }
